@@ -1,7 +1,6 @@
 # Storage File
 
-API simples para upload de arquivo (imagem de perfil) usando AWS S3 via
-LocalStack. Os dados do usuario sao salvos em H2 em memoria.
+API simples para upload de arquivo (imagem) usando AWS S3 via LocalStack.
 
 ## Requisitos
 
@@ -42,27 +41,47 @@ As configuracoes estao em `src/main/resources/application.properties`:
 
 ## Endpoint
 
-Upload de usuario com imagem:
+Upload de PDF:
 
 - Metodo: `POST`
-- URL: `http://localhost:8080/api/v1/user/multipart/form-data`
+- URL: `http://localhost:8080/api/v1/user/upload`
 - Body (form-data):
-  - `name` (text)
-  - `profileImageFile` (file)
+  - `file` (file) ou `profileImageFile` (file)
+  - Apenas arquivos PDF sao aceitos
+
+Info (GET):
+
+- Metodo: `GET`
+- URL: `http://localhost:8080/api/v1/user/upload`
+
+Buscar arquivo por nome:
+
+- Metodo: `GET`
+- URL: `http://localhost:8080/api/v1/user/file?key=seu-arquivo.pdf`
+
+Listar arquivos:
+
+- Metodo: `GET`
+- URL: `http://localhost:8080/api/v1/user/files`
+- Opcional: `prefix` para filtrar (ex.: `?prefix=doc`)
+
+Download de arquivo:
+
+- Metodo: `GET`
+- URL: `http://localhost:8080/api/v1/user/download?key=seu-arquivo.pdf`
 
 Exemplo com curl:
 
 ```
-curl -X POST "http://localhost:8080/api/v1/user/multipart/form-data" ^
+curl -X POST "http://localhost:8080/api/v1/user/upload" ^
   -H "Content-Type: multipart/form-data" ^
-  -F "name=dalton" ^
-  -F "profileImageFile=@minato.jpg"
+  -F "file=@documento.pdf"
 ```
 
 Resposta esperada: URL do arquivo no LocalStack, por exemplo:
 
 ```
-http://localhost:4566/s3integration/daltonprofileImage
+http://localhost:4566/s3integration/documento.pdf
 ```
 
 ## H2 Console

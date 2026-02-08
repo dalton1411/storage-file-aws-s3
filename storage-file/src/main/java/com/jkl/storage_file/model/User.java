@@ -1,7 +1,6 @@
-package com.jkl.storage_file.model.entity;
+package com.jkl.storage_file.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
